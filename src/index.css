@@ -1,0 +1,159 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --bg-main: #f8fafc;
+    --bg-card: #ffffff;
+    --bg-card-border: #e2e8f0;
+    --text-primary: #0f172a;
+    --text-secondary: #334155;
+    --color-income: #0284c7;
+    --color-expense: #ef4444;
+    --color-net: #0284c7;
+    --color-neutral: #2563eb;
+    --color-ai: #7c3aed;
+    --color-warning: #d97706;
+  }
+
+  .dark {
+    --bg-main: #0b0f19;
+    --bg-card: #1e293b;
+    --bg-card-border: #334155;
+    --text-primary: #f8fafc;
+    --text-secondary: #cbd5e1;
+    --color-income: #38bdf8;
+    --color-expense: #f43f5e;
+    --color-net: #38bdf8;
+    --color-neutral: #3b82f6;
+    --color-ai: #a855f7;
+    --color-warning: #f59e0b;
+  }
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  transition: background-color 0.15s ease, color 0.15s ease;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* Card Surface Utilities - Strict high-contrast cards */
+.saas-card, .glass-card {
+  background-color: var(--bg-card) !important;
+  border: 1px solid var(--bg-card-border);
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.04);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  color: var(--text-primary);
+  opacity: 1 !important;
+}
+
+.dark .saas-card, .dark .glass-card {
+  background-color: #1e293b !important;
+  border-color: #334155;
+  color: #f8fafc;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
+}
+
+.saas-card-interactive {
+  background-color: var(--bg-card) !important;
+  border: 1px solid var(--bg-card-border);
+  border-radius: 1rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.06);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  color: var(--text-primary);
+  opacity: 1 !important;
+}
+
+.saas-card-interactive:hover {
+  border-color: #94a3b8;
+  box-shadow: 0 6px 16px -2px rgba(0, 0, 0, 0.08);
+  transform: translateY(-1px);
+}
+
+.dark .saas-card-interactive:hover {
+  border-color: #475569;
+  box-shadow: 0 6px 16px -2px rgba(0, 0, 0, 0.4);
+}
+
+/* Financial Status Badges - High Contrast */
+.badge-income {
+  background-color: #e0f2fe;
+  color: #0369a1;
+  border: 1px solid #7dd3fc;
+}
+
+.dark .badge-income {
+  background-color: rgba(56, 189, 248, 0.15);
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.4);
+}
+
+.badge-expense {
+  background-color: #fee2e2;
+  color: #b91c1c;
+  border: 1px solid #fca5a5;
+}
+
+.dark .badge-expense {
+  background-color: rgba(244, 63, 94, 0.15);
+  color: #fb7185;
+  border: 1px solid rgba(244, 63, 94, 0.4);
+}
+
+.badge-ai {
+  background-color: #f3e8ff;
+  color: #6b21a8;
+  border: 1px solid #d8b4fe;
+}
+
+.dark .badge-ai {
+  background-color: rgba(168, 85, 247, 0.15);
+  color: #c084fc;
+  border: 1px solid rgba(168, 85, 247, 0.4);
+}
+
+.badge-review {
+  background-color: #fef3c7;
+  color: #b45309;
+  border: 1px solid #fcd34d;
+}
+
+.dark .badge-review {
+  background-color: rgba(245, 158, 11, 0.15);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.4);
+}
+
+.badge-neutral {
+  background-color: #dbeafe;
+  color: #1d4ed8;
+  border: 1px solid #93c5fd;
+}
+
+.dark .badge-neutral {
+  background-color: rgba(59, 130, 246, 0.15);
+  color: #60a5fa;
+  border: 1px solid rgba(59, 130, 246, 0.4);
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.5);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(100, 116, 139, 0.8);
+}
