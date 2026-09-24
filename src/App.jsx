@@ -39,8 +39,10 @@ import BankAccountsManager from './components/settings/BankAccountsManager';
 import ProfileSettings from './components/settings/ProfileSettings';
 import AIChatWidget from './components/ai/AIChatWidget';
 import VoiceAndWhatsAppModal from './components/ai/VoiceAndWhatsAppModal';
+import { useAuth } from './context/AuthContext';
 
 function AppContent() {
+  const { isAuthenticated, loading } = useAuth();
   const [activeTab, setActiveTab] = useState('dashboard');
   const [selectedTx, setSelectedTx] = useState(null);
   const [selectedIds, setSelectedIds] = useState([]);
@@ -52,7 +54,7 @@ function AppContent() {
     return <LandingPage onNavigate={(tab) => setActiveTab(tab)} />;
   }
 
-  if (activeTab === 'auth') {
+  if (activeTab === 'auth' || !isAuthenticated) {
     return <AuthPage onComplete={() => setActiveTab('dashboard')} />;
   }
 

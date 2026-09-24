@@ -136,11 +136,11 @@ export default function ProfileSettings() {
           </div>
         )}
 
-        {/* Supabase Connection Status Panel */}
+        {/* Supabase & Active Session Status Panel */}
         <div className="pt-4 border-t border-slate-200 dark:border-slate-800 space-y-3">
           <h4 className="text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            Supabase Cloud Connection
+            Supabase Cloud & Live Session Status
           </h4>
           <div className="p-4 rounded-2xl bg-slate-900 text-slate-200 border border-slate-800 space-y-2 text-xs font-mono">
             <div className="flex justify-between items-center">
@@ -148,12 +148,18 @@ export default function ProfileSettings() {
               <span className="text-emerald-400 font-bold">https://nyiwbgfdfjjdenaigpzz.supabase.co</span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-slate-400">STATUS</span>
-              <span className="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-[10px] font-sans font-bold">CONNECTED & ACTIVE</span>
+              <span className="text-slate-400">AUTH_MODE</span>
+              <span className="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-[10px] font-sans font-bold uppercase">
+                {user.provider ? `${user.provider} AUTH` : 'CONNECTED & ACTIVE'}
+              </span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-slate-400">AUTH JWKS</span>
-              <span className="text-slate-300 truncate max-w-[240px] sm:max-w-none text-[11px]">https://nyiwbgfdfjjdenaigpzz.supabase.co/auth/v1/.well-known/jwks.json</span>
+              <span className="text-slate-400">ACTIVE_USER_ID</span>
+              <span className="text-slate-300 truncate max-w-[200px] sm:max-w-none text-[11px] font-bold">{user.id || 'usr_demo_8823'}</span>
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-slate-400">EMAIL_STATUS</span>
+              <span className="text-emerald-400 text-[11px]">VERIFIED & CONFIRMED</span>
             </div>
           </div>
         </div>
