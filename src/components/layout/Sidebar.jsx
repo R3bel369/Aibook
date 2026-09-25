@@ -31,7 +31,12 @@ import {
   ShieldAlert,
   Presentation,
   Globe,
-  Mic
+  Mic,
+  Radio,
+  Download,
+  Scale,
+  Lock,
+  CreditCard
 } from 'lucide-react';
 import { useFinancialData } from '../../context/FinancialDataContext';
 import { useAuth } from '../../context/AuthContext';
@@ -48,6 +53,8 @@ export default function Sidebar({ activeTab, setActiveTab }) {
       title: 'CORE LEDGER',
       items: [
         { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
+        { id: 'cards', label: 'Credit & Debit Cards', icon: CreditCard, highlight: true, badge: 'Wallet' },
+        { id: 'live-bank-sync', label: 'Live Plaid Sync', icon: Radio, highlight: true, badge: 'OAuth 2.0' },
         { id: 'upload', label: 'Upload Statement', icon: Upload, badge: 'PDF AI' },
         { id: 'my-statements', label: 'My Statements', icon: FileText }
       ]
@@ -60,8 +67,9 @@ export default function Sidebar({ activeTab, setActiveTab }) {
       ]
     },
     {
-      title: 'RECONCILIATION',
+      title: 'EXPORT & RECONCILIATION',
       items: [
+        { id: 'accounting-export', label: 'Export to QBO/Xero/Tally', icon: Download, highlight: true, badge: 'Direct API' },
         { id: 'reconciliation', label: '3-Way Receipt Match', icon: FileCheck, badge: 'OCR Split' }
       ]
     },
@@ -77,13 +85,6 @@ export default function Sidebar({ activeTab, setActiveTab }) {
           countColor: 'bg-amber-500 text-slate-950 font-black'
         },
         { id: 'uncategorized', label: 'Uncategorized', icon: Tag }
-      ]
-    },
-    {
-      title: 'TAX & SIMULATOR',
-      items: [
-        { id: 'simulator', label: 'What-If Simulator', icon: Sliders, badge: 'Runway' },
-        { id: 'tax-genius', label: 'IRS Tax Radar & 1099', icon: Building, badge: 'Tax 1099' }
       ]
     },
     {
@@ -108,8 +109,9 @@ export default function Sidebar({ activeTab, setActiveTab }) {
       ]
     },
     {
-      title: 'SETTINGS',
+      title: 'SETTINGS & COMPLIANCE',
       items: [
+        { id: 'audit-rbac', label: 'CPA Audit & RBAC', icon: Lock, highlight: true, badge: 'Logs' },
         { id: 'settings-profile', label: 'Profile', icon: User },
         { id: 'accounts', label: 'Bank Accounts', icon: Building2 },
         { id: 'settings', label: 'AI Settings', icon: Settings, highlight: true },

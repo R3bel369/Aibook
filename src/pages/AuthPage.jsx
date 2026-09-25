@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
-import { Bot, ArrowRight, CheckCircle2, ShieldCheck, Mail, Lock, Building, Globe, DollarSign, Eye, EyeOff, AlertCircle, Loader2, Sparkles, UserCheck } from 'lucide-react';
+import { Bot, ArrowRight, CheckCircle2, ShieldCheck, Mail, Lock, Building, Globe, DollarSign, Eye, EyeOff, AlertCircle, Loader2, Sparkles, UserCheck, KeyRound, Copy, Check } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { DEMO_CREDENTIALS } from '../data/mockData';
 
 export default function AuthPage({ onComplete }) {
   const { login, loginDemo, loginWithGoogle, signup, resetPassword, loading, authError } = useAuth();
   const [mode, setMode] = useState('login'); // 'login', 'signup', 'forgot'
 
   // Form states
-  const [email, setEmail] = useState('alex@apexinnovations.io');
-  const [password, setPassword] = useState('password123');
+  const [email, setEmail] = useState('admin@bookkeeping.ai');
+  const [password, setPassword] = useState('admin123');
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(true);
+  const [copiedRole, setCopiedRole] = useState(null);
 
   const [name, setName] = useState('Alex Morgan');
   const [businessName, setBusinessName] = useState('Apex Innovations Pvt Ltd');
@@ -23,6 +25,14 @@ export default function AuthPage({ onComplete }) {
   const [errorMessage, setErrorMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const fillCredentials = (credEmail, credPassword, role) => {
+    setEmail(credEmail);
+    setPassword(credPassword);
+    setCopiedRole(role);
+    setMessage(`Auto-filled ${role.toUpperCase()} credentials: ${credEmail}`);
+    setTimeout(() => setCopiedRole(null), 2000);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage('');
@@ -34,7 +44,7 @@ export default function AuthPage({ onComplete }) {
         const res = await login(email, password);
         if (res.success) {
           if (res.isDemo) {
-            setMessage('Signed in via Instant Demo Mode');
+            setMessage(res.message || 'Signed in via Instant Demo Mode');
           }
           setTimeout(() => onComplete(), 300);
         } else {
@@ -95,28 +105,42 @@ export default function AuthPage({ onComplete }) {
       <div className="w-full max-w-xl glass-card rounded-3xl p-6 sm:p-10 border border-slate-200/80 dark:border-slate-700/80 shadow-2xl space-y-7">
         
         {/* Quick Demo Login Preset Bar */}
-        <div className="p-3 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex flex-wrap items-center justify-between gap-2 text-xs">
-          <div className="flex items-center gap-1.5 font-extrabold text-emerald-700 dark:text-emerald-400">
-            <Sparkles className="w-4 h-4 text-emerald-500" />
-            <span>Instant Demo Mode:</span>
+        <div className="p-3.5 rounded-2xl bg-slate-900/90 dark:bg-slate-800/90 border border-slate-700/80 shadow-lg flex flex-wrap items-center justify-between gap-2.5 text-xs text-white">
+          <div className="flex items-center gap-1.5 font-extrabold text-emerald-400">
+            <Sparkles className="w-4 h-4 text-emerald-400 animate-pulse" />
+            <span>Instant Demo Logins:</span>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <button
-              onClick={() => handleDemoPreset('owner')}
-              className="px-2.5 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[11px] shadow transition-all flex items-center gap-1"
+              type="button"
+              onClick={() => handleDemoPreset('admin')}
+              className="px-2.5 py-1 rounded-lg bg-purple-600 hover:bg-purple-500 text-white font-bold text-[11px] shadow transition-all flex items-center gap-1 active:scale-95"
+              title="Sign in as System Admin"
             >
-              <UserCheck className="w-3 h-3" />
+              <ShieldCheck className="w-3 h-3 text-purple-200" />
+              <span>Admin Demo</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => handleDemoPreset('owner')}
+              className="px-2.5 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-[11px] shadow transition-all flex items-center gap-1 active:scale-95"
+              title="Sign in as Business Owner"
+            >
+              <UserCheck className="w-3 h-3 text-emerald-200" />
               <span>Owner Demo</span>
             </button>
             <button
+              type="button"
               onClick={() => handleDemoPreset('accountant')}
-              className="px-2.5 py-1 rounded-lg bg-sky-600 hover:bg-sky-700 text-white font-bold text-[11px] shadow transition-all flex items-center gap-1"
+              className="px-2.5 py-1 rounded-lg bg-sky-600 hover:bg-sky-500 text-white font-bold text-[11px] shadow transition-all flex items-center gap-1 active:scale-95"
+              title="Sign in as CPA Accountant"
             >
-              <UserCheck className="w-3 h-3" />
+              <UserCheck className="w-3 h-3 text-sky-200" />
               <span>CPA Demo</span>
             </button>
           </div>
         </div>
+
 
         {/* Logo & Header */}
         <div className="text-center space-y-2">
@@ -359,6 +383,75 @@ export default function AuthPage({ onComplete }) {
           </button>
         </form>
 
+        {/* Available Dummy Credentials Helper */}
+        {mode === 'login' && (
+          <div className="pt-2 border-t border-slate-200 dark:border-slate-800 space-y-3">
+            <div className="flex items-center justify-between text-xs">
+              <span className="font-extrabold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
+                <KeyRound className="w-4 h-4 text-emerald-500" />
+                Available Demo Credentials
+              </span>
+              <span className="text-[10px] text-slate-600 dark:text-slate-400">Click row to auto-fill</span>
+            </div>
+
+            <div className="space-y-2">
+              {DEMO_CREDENTIALS.map((cred) => (
+                <div
+                  key={cred.role}
+                  className={`p-3 rounded-2xl border transition-all flex items-center justify-between gap-3 ${
+                    email === cred.email
+                      ? 'bg-emerald-500/10 border-emerald-500/40 shadow-sm'
+                      : 'bg-slate-50 dark:bg-slate-800/60 border-slate-200/80 dark:border-slate-700/60 hover:border-slate-300 dark:hover:border-slate-600'
+                  }`}
+                >
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-0.5">
+                      <span className="font-extrabold text-xs text-slate-900 dark:text-white truncate">
+                        {cred.roleLabel}
+                      </span>
+                      <span className={`px-2 py-0.5 text-[9px] font-black rounded-md border ${cred.badgeColor}`}>
+                        {cred.badge}
+                      </span>
+                    </div>
+                    <div className="text-[11px] font-mono text-slate-600 dark:text-slate-400 truncate">
+                      {cred.email} • <span className="text-slate-600 font-bold">{cred.password}</span>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-1.5 shrink-0">
+                    <button
+                      type="button"
+                      onClick={() => fillCredentials(cred.email, cred.password, cred.role)}
+                      className="px-2.5 py-1 rounded-xl bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 text-slate-800 dark:text-slate-200 font-bold text-[11px] transition-all flex items-center gap-1"
+                      title="Auto-fill login form"
+                    >
+                      {copiedRole === cred.role ? (
+                        <>
+                          <Check className="w-3 h-3 text-emerald-500" />
+                          <span className="text-emerald-600 dark:text-emerald-400">Filled</span>
+                        </>
+                      ) : (
+                        <>
+                          <Copy className="w-3 h-3" />
+                          <span>Fill</span>
+                        </>
+                      )}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleDemoPreset(cred.role)}
+                      className={`px-2 py-1 rounded-xl text-white font-bold text-[11px] transition-all ${cred.btnColor}`}
+                      title={`Sign in as ${cred.roleLabel}`}
+                    >
+                      Login
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {mode === 'forgot' && (
           <div className="text-center pt-2">
             <button
@@ -370,6 +463,7 @@ export default function AuthPage({ onComplete }) {
             </button>
           </div>
         )}
+
 
       </div>
     </div>

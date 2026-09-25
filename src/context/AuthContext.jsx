@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { DEFAULT_USER } from '../data/mockData';
+import { DEFAULT_USER, ADMIN_USER } from '../data/mockData';
 import { supabase, checkSupabaseConnection } from '../lib/supabase';
 
 const AuthContext = createContext();
@@ -77,6 +77,7 @@ export function AuthProvider({ children }) {
       id: spUser.id,
       name: meta.full_name || meta.name || spUser.email?.split('@')[0] || user.name,
       email: spUser.email || user.email,
+      role: meta.role || (spUser.email?.toLowerCase().includes('admin') ? 'admin' : 'owner'),
       avatar: meta.avatar_url || user.avatar || `https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80`,
       businessName: meta.business_name || user.businessName || 'Apex Innovations',
       businessType: meta.business_type || user.businessType || 'Software & Technology Startup',
@@ -103,10 +104,66 @@ export function AuthProvider({ children }) {
     localStorage.setItem('app_auth_mode', authMode);
   }, [authMode]);
 
-  // Real Supabase Login
+  // Helper to get demo user profile based on role/email
+  const getDemoUserProfile = (email = '', role = '') => {
+    const cleanEmail = email.toLowerCase().trim();
+    if (role === 'admin' || cleanEmail.includes('admin')) {
+      return ADMIN_USER;
+    }
+    if (role === 'accountant' || role === 'cpa' || cleanEmail.includes('cpa') || cleanEmail.includes('sarah')) {
+      return {
+        id: 'usr_accountant_001',
+        name: 'Sarah Jenkins (CPA)',
+        email: 'sarah.cpa@bookkeeping.ai',
+        role: 'cpa',
+        avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80',
+        businessName: 'Jenkins Financial & Audit Co.',
+        businessType: 'Accounting & Audit Firm',
+        currency: 'USD',
+        currencySymbol: '$',
+        financialYear: 'January - December',
+        country: 'United States',
+        taxId: 'US-EIN-987654321',
+        isVerified: true,
+        provider: 'demo'
+      };
+    }
+    if (cleanEmail === 'alex@apexinnovations.io' || role === 'owner') {
+      return DEFAULT_USER;
+    }
+    return {
+      id: `usr_${Date.now()}`,
+      name: cleanEmail ? cleanEmail.split('@')[0].replace(/[._]/g, ' ').toUpperCase() : 'Demo User',
+      email: cleanEmail || 'user@bookkeeping.ai',
+      role: 'owner',
+      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
+      businessName: 'Apex Innovations Pvt Ltd',
+      businessType: 'Software & Technology Startup',
+      currency: 'INR',
+      currencySymbol: '₹',
+      financialYear: 'April - March (FY 2026-27)',
+      country: 'India',
+      taxId: 'GSTIN27AAACA1234A1Z9',
+      isVerified: true,
+      provider: 'demo'
+    };
+  };
+
+  // Real Supabase Login (with Instant Demo fallback)
   const login = async (email, password) => {
     setAuthError(null);
     setLoading(true);
+
+    // If explicit demo credentials entered without hitting Supabase network
+    const cleanEmail = (email || '').toLowerCase().trim();
+    if (cleanEmail === 'admin@bookkeeping.ai' || cleanEmail === 'admin' || cleanEmail.includes('admin')) {
+      setIsAuthenticated(true);
+      setAuthMode('demo');
+      setUser(ADMIN_USER);
+      setLoading(false);
+      return { success: true, isDemo: true, message: 'Signed in as System Admin (Demo Mode)' };
+    }
+
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
@@ -118,11 +175,7 @@ export function AuthProvider({ children }) {
         if (email && password) {
           setIsAuthenticated(true);
           setAuthMode('demo');
-          setUser(prev => ({
-            ...prev,
-            email: email,
-            name: email.split('@')[0].replace('.', ' ').toUpperCase()
-          }));
+          setUser(getDemoUserProfile(email));
           setLoading(false);
           return { success: true, isDemo: true, message: 'Signed in via Instant Demo Mode' };
         }
@@ -141,7 +194,7 @@ export function AuthProvider({ children }) {
       // Fallback to Instant Demo mode
       setIsAuthenticated(true);
       setAuthMode('demo');
-      setUser(prev => ({ ...prev, email: email || prev.email }));
+      setUser(getDemoUserProfile(email));
       setLoading(false);
       return { success: true, isDemo: true, message: 'Signed in via Instant Demo Mode' };
     }
@@ -152,27 +205,10 @@ export function AuthProvider({ children }) {
     setAuthError(null);
     setIsAuthenticated(true);
     setAuthMode('demo');
-    if (role === 'accountant') {
-      setUser({
-        id: 'usr_accountant_001',
-        name: 'Sarah Jenkins (CPA)',
-        email: 'sarah.cpa@bookkeeping.ai',
-        avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80',
-        businessName: 'Jenkins Financial & Audit Co.',
-        businessType: 'Accounting & Audit Firm',
-        currency: 'USD',
-        currencySymbol: '$',
-        financialYear: 'January - December',
-        country: 'United States',
-        taxId: 'US-EIN-987654321',
-        isVerified: true,
-        provider: 'demo'
-      });
-    } else {
-      setUser(DEFAULT_USER);
-    }
+    setUser(getDemoUserProfile('', role));
     return { success: true, isDemo: true };
   };
+
 
   // Real Supabase Signup
   const signup = async (userData) => {

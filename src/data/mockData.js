@@ -1,17 +1,69 @@
 // Exact Apex Trust Bank Statement Dataset for Eleanor V. Vance (Oct 01, 2024 – Oct 31, 2024)
 
 export const DEFAULT_USER = {
-  name: "Eleanor V. Vance",
-  email: "e.vance@example.com",
-  businessName: "Eleanor V. Vance",
-  businessType: "Premier Checking Account",
-  currency: "USD",
-  currencySymbol: "$",
-  financialYear: "Statement Period: Oct 01, 2024 – Oct 31, 2024",
-  country: "United States",
-  taxId: "SSN-••••-8492",
+  id: "usr_owner_001",
+  name: "Alex Morgan",
+  email: "alex@apexinnovations.io",
+  role: "owner",
+  businessName: "Apex Innovations Pvt Ltd",
+  businessType: "Software & Technology Startup",
+  currency: "INR",
+  currencySymbol: "₹",
+  financialYear: "April - March (FY 2026-27)",
+  country: "India",
+  taxId: "GSTIN27AAACA1234A1Z9",
+  isVerified: true,
+  provider: "demo",
   avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=250"
 };
+
+export const ADMIN_USER = {
+  id: "usr_admin_999",
+  name: "System Admin (Administrator)",
+  email: "admin@bookkeeping.ai",
+  role: "admin",
+  businessName: "Apex Global Financial HQ",
+  businessType: "Enterprise Super Admin",
+  currency: "USD",
+  currencySymbol: "$",
+  financialYear: "FY 2026-2027 (Global Admin View)",
+  country: "United States",
+  taxId: "ADMIN-SYS-999-KEY",
+  isVerified: true,
+  provider: "demo",
+  avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80"
+};
+
+export const DEMO_CREDENTIALS = [
+  {
+    role: "admin",
+    roleLabel: "System Admin",
+    email: "admin@bookkeeping.ai",
+    password: "admin123",
+    badge: "Super Admin",
+    badgeColor: "bg-purple-500/20 text-purple-600 dark:text-purple-400 border-purple-500/30",
+    btnColor: "bg-purple-600 hover:bg-purple-700"
+  },
+  {
+    role: "owner",
+    roleLabel: "Business Owner",
+    email: "alex@apexinnovations.io",
+    password: "password123",
+    badge: "Owner / Director",
+    badgeColor: "bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border-emerald-500/30",
+    btnColor: "bg-emerald-600 hover:bg-emerald-700"
+  },
+  {
+    role: "accountant",
+    roleLabel: "CPA / Accountant",
+    email: "sarah.cpa@bookkeeping.ai",
+    password: "cpa123",
+    badge: "External Auditor",
+    badgeColor: "bg-sky-500/20 text-sky-600 dark:text-sky-400 border-sky-500/30",
+    btnColor: "bg-sky-600 hover:bg-sky-700"
+  }
+];
+
 
 export const BANK_ACCOUNTS = [
   {
@@ -30,6 +82,73 @@ export const BANK_ACCOUNTS = [
     lastSynced: "As of Oct 31, 2024"
   }
 ];
+
+export const INITIAL_CARDS = [
+  {
+    id: "card_corp_amex_01",
+    cardName: "Corporate Platinum Amex",
+    cardholderName: "Alex Morgan",
+    cardType: "CREDIT",
+    network: "American Express",
+    last4: "8892",
+    expiry: "11/28",
+    creditLimit: 50000,
+    usedBalance: 8420.50,
+    billingCycleDay: 15,
+    status: "ACTIVE",
+    color: "from-slate-900 via-slate-800 to-amber-900",
+    isPrimary: true,
+    autoCategorize: true
+  },
+  {
+    id: "card_executive_debit_02",
+    cardName: "Apex Premier Business Debit",
+    cardholderName: "Alex Morgan",
+    cardType: "DEBIT",
+    network: "Mastercard",
+    last4: "4892",
+    expiry: "09/27",
+    dailyLimit: 5000,
+    availableBalance: 7118.35,
+    linkedAccount: "Apex Trust Premier Checking",
+    status: "ACTIVE",
+    color: "from-blue-600 via-indigo-700 to-sky-900",
+    isPrimary: false,
+    autoCategorize: true
+  },
+  {
+    id: "card_virtual_saas_03",
+    cardName: "AI Virtual Procurement Card",
+    cardholderName: "SaaS Bot Engine",
+    cardType: "VIRTUAL",
+    network: "Visa",
+    last4: "9914",
+    expiry: "04/29",
+    creditLimit: 10000,
+    usedBalance: 2450.00,
+    status: "ACTIVE",
+    color: "from-purple-600 via-indigo-800 to-purple-950",
+    isPrimary: false,
+    autoCategorize: true
+  },
+  {
+    id: "card_travel_chase_04",
+    cardName: "Chase Sapphire Travel Elite",
+    cardholderName: "Sarah Jenkins (CPA)",
+    cardType: "CREDIT",
+    network: "Visa",
+    last4: "3310",
+    expiry: "08/28",
+    creditLimit: 25000,
+    usedBalance: 1120.50,
+    billingCycleDay: 28,
+    status: "ACTIVE",
+    color: "from-sky-700 via-blue-800 to-indigo-950",
+    isPrimary: false,
+    autoCategorize: true
+  }
+];
+
 
 import { USA_BANK_CATEGORIES } from './usaCategories';
 

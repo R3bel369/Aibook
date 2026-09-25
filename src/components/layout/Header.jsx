@@ -177,11 +177,23 @@ export default function Header({ onUploadClick, onNavigate, onSelectTransaction 
               {showUserMenu && (
                 <div className="absolute right-0 mt-2 w-64 saas-card p-2 shadow-2xl z-50 space-y-1 border border-slate-300 dark:border-slate-700">
                   <div className="px-3 py-2 border-b border-slate-200 dark:border-slate-800">
-                    <div className="flex items-center justify-between">
-                      <div className="font-extrabold text-xs text-slate-900 dark:text-white truncate max-w-[140px]">{user.name}</div>
-                      <span className="px-1.5 py-0.5 text-[9px] font-mono font-extrabold rounded bg-emerald-500/20 text-emerald-600 dark:text-emerald-400">
-                        {user.provider === 'google' ? 'GOOGLE' : 'AUTH'}
-                      </span>
+                    <div className="flex items-center justify-between gap-1">
+                      <div className="font-extrabold text-xs text-slate-900 dark:text-white truncate max-w-[130px]">{user.name}</div>
+                      <div className="flex items-center gap-1">
+                        {user.role === 'admin' && (
+                          <span className="px-1.5 py-0.5 text-[9px] font-black rounded bg-purple-500/20 text-purple-600 dark:text-purple-400 border border-purple-500/30 uppercase">
+                            ADMIN
+                          </span>
+                        )}
+                        {user.role === 'cpa' && (
+                          <span className="px-1.5 py-0.5 text-[9px] font-black rounded bg-sky-500/20 text-sky-600 dark:text-sky-400 border border-sky-500/30 uppercase">
+                            CPA
+                          </span>
+                        )}
+                        <span className="px-1.5 py-0.5 text-[9px] font-mono font-extrabold rounded bg-emerald-500/20 text-emerald-600 dark:text-emerald-400">
+                          {user.provider === 'google' ? 'GOOGLE' : 'AUTH'}
+                        </span>
+                      </div>
                     </div>
                     <div className="text-[11px] font-semibold text-slate-600 dark:text-slate-400 truncate">{user.email}</div>
                   </div>

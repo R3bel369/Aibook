@@ -19,12 +19,14 @@ import SettingsPage from './pages/SettingsPage';
 
 // New Mind-Blowing Feature Pages
 import ReceiptReconciliationPage from './pages/ReceiptReconciliationPage';
-import CashFlowSimulatorPage from './pages/CashFlowSimulatorPage';
-import TaxGeniusPage from './pages/TaxGeniusPage';
 import AutoBookkeeperAgentPage from './pages/AutoBookkeeperAgentPage';
 import FraudVampireHunterPage from './pages/FraudVampireHunterPage';
 import ExecutivePitchDeckPage from './pages/ExecutivePitchDeckPage';
 import MultiEntityHubPage from './pages/MultiEntityHubPage';
+import LiveBankSyncPage from './pages/LiveBankSyncPage';
+import AccountingExportPage from './pages/AccountingExportPage';
+import AuditLogRBACPage from './pages/AuditLogRBACPage';
+import CreditDebitCardsPage from './pages/CreditDebitCardsPage';
 
 // Components
 import Sidebar from './components/layout/Sidebar';
@@ -96,11 +98,15 @@ function AppContent() {
             <UploadPage onNavigate={(tab) => setActiveTab(tab)} />
           )}
 
-          {/* 8 Mind-Blowing Features Routes */}
+          {/* New Powerhouse Feature Routes */}
+          {activeTab === 'cards' && <CreditDebitCardsPage />}
+          {activeTab === 'live-bank-sync' && <LiveBankSyncPage />}
+          {activeTab === 'accounting-export' && <AccountingExportPage />}
+          {activeTab === 'audit-rbac' && <AuditLogRBACPage />}
+
+          {/* Autonomous Agents & Features Routes */}
           {activeTab === 'auto-agent' && <AutoBookkeeperAgentPage />}
           {activeTab === 'reconciliation' && <ReceiptReconciliationPage />}
-          {activeTab === 'simulator' && <CashFlowSimulatorPage />}
-          {activeTab === 'tax-genius' && <TaxGeniusPage />}
           {activeTab === 'vampire-hunter' && <FraudVampireHunterPage />}
           {activeTab === 'pitch-deck' && <ExecutivePitchDeckPage />}
           {activeTab === 'multi-entity' && <MultiEntityHubPage />}
